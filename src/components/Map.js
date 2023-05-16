@@ -1,82 +1,71 @@
-import {useState, useEffect, useRef } from 'react';
-import MapView, {Marker, Geojson} from 'react-native-maps';
+import { useState, useEffect, useRef } from 'react';
+import MapView, { Marker } from 'react-native-maps';
 import { StyleSheet, View } from 'react-native';
 import * as Location from 'expo-location';
+import { getQRCode } from '../core/services/spots.service';
 
 export default function Map() {
+  const [markers, setMarkers] = useState([]);
 
-  const [longitudeMarker, setLongitudeMarker] = useState(48.85);
-  const [latitudeMarker, setLatitudeMarker] = useState(2.34);
   const mapRef = useRef(null);
-  const [longitudeMap, setLongitudeMap] = useState(48.85);
-  const [latitudeMap, setLatitudeMap] = useState(2.34);
+  const [latitudeMap, setLatitudeMap] = useState(43.640199);
+  const [longitudeMap, setLongitudeMap] = useState(5.097022);
 
   useEffect(() => {
     (async () => {
-      
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
         return;
       }
 
       let location = await Location.getCurrentPositionAsync({});
-      setLatitudeMarker(location.coords.latitude)
-      setLongitudeMarker(location.coords.longitude)
-
-      setLatitudeMap(location.coords.latitude)
-      setLongitudeMap(location.coords.longitude)
-
-      await returnAdress(location.coords)
-      
-    })
-    ();
+      setLatitudeMap(location.coords.latitude);
+      setLongitudeMap(location.coords.longitude);
+    })();
   }, []);
 
-  const returnAdress = async(location) => {
-    let getAdress = await Location.reverseGeocodeAsync({
-      longitude: location.longitude,
-      latitude: location.latitude,
-    })
-  } 
+  useEffect(() => {
+    // Créer les marqueurs en boucle à partir du tableau de données
+    const createMarkers = async () => {
+      const data = await getQRCode();
+      const newMarkers = data.map((item) => ({
+        id: item.id,
+        latitude: item.latitude,
+        longitude: item.longitude,
+      }));
+      setMarkers(newMarkers);
+    };
+
+    createMarkers();
+  }, []);
 
   return (
     <View style={styles.container}>
-        <MapView style={styles.map}
-          ref = {mapRef}
-          userLocationPriority = 'high'
-          showsUserLocation = {true}
-          region= {{
-            latitude: latitudeMap,
-            longitude: longitudeMap,
-            latitudeDelta: 0.10,
-            longitudeDelta: 0.10,
-          }}
-              onPress = { (coordonne) => {
-                  setLatitudeMarker(coordonne.nativeEvent.coordinate.latitude)
-                  setLongitudeMarker(coordonne.nativeEvent.coordinate.longitude)
-                  returnAdress(coordonne.nativeEvent.coordinate)
-
-                  mapRef.current?.animateToRegion({
-                    latitude: coordonne.nativeEvent.coordinate.latitude,
-                    longitude: coordonne.nativeEvent.coordinate.longitude,
-                    latitudeDelta: 0.01,
-                    longitudeDelta: 0.01,
-                  }, 1000)
-                  
-              }}>
-
-
-            <Marker
-            coordinate={{latitude: latitudeMarker, longitude: longitudeMarker}}
-            />
-        </MapView>
-
-
+      <MapView
+        style={styles.map}
+        ref={mapRef}
+        userLocationPriority='high'
+        showsUserLocation={true}
+        region={{
+          latitude: latitudeMap,
+          longitude: longitudeMap,
+          latitudeDelta: 0.10,
+          longitudeDelta: 0.10,
+        }}
+      >
+        {markers.map((marker) => (
+          <Marker
+            key={marker.id}
+            coordinate={{
+              latitude: marker.latitude,
+              longitude: marker.longitude,
+            }}
+          />
+        ))}
+      </MapView>
     </View>
   );
 }
-
-
 
 const styles = StyleSheet.create({
   container: {

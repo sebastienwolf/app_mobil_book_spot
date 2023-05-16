@@ -1,9 +1,23 @@
 import { StyleSheet, Text, Image, View, ScrollView } from "react-native";
+import { useEffect } from "react";
 import Button from "../components/Button";
 import logo from "../../assets/pictures/logo2.png";
+import {getQRCode} from '../core/services/spots.service';
+
 
 
 export default function Page() {
+
+  useEffect(() => {
+    (async () => {
+       const a = await getQRCode();
+       console.log('index=', a);
+    })
+      ();
+  }, []);
+
+
+
   return (
       <ScrollView>
           <View style={styles.container}>
