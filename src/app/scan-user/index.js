@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Scanner from "../../components/Scanner"
 import TextEntryComponent from "../../components/TextInput";
 import { getService } from '../../core/services/get.service';
-// import Button from "../../components/Button";
+import Button from "../../components/Button";
 
 
 export default function Page() {
@@ -11,7 +11,7 @@ export default function Page() {
   const [data, setData] = useState("data")
   const [firstName, setFirstName] = useState("")
   const [name, setName] = useState("")
-
+  const [url, setUrl] = useState("")
 
   const onChange = async ({ data }) => {
     setData(data)
@@ -20,46 +20,49 @@ export default function Page() {
     setFirstName(dataUser.prenom)
     setName(dataUser.nom)
      
+    setUrl("/api/scan/" + dataUser.id)
+    console.log("url",url)
   };
 
   return (
-      <ScrollView>
-          <View style={styles.container}>
-              <View style={styles.main}>
-                    <Text style={styles.title}>Scanner votre Carte d'identification</Text>
-                    <Scanner
-                      onChange={onChange}
-                      style={styles.scaner}
-                      />
-              </View>
-
-              <View style={styles.row}>                
-                <TextEntryComponent
-                  value={firstName}
-                  editable={false}
-                  style={{ 
-                    marginLeft: 2,
-                     marginRight: 2,
-                  }} />
-                <TextEntryComponent
-                  value={name}
-                  editable={false}
-                  style={{ 
-                    marginLeft: 2,
-                     marginRight: 2,
-                  }} />
-              </View>
-        <View style={styles.row}>
-            <Button
-              route="/scan-user"
-              title="Scanner votre carte"
-            />
-          
-
-
+    <ScrollView>
+      <View style={styles.container}>
+        <View style={styles.main}>
+          <Text style={styles.title}>Scanner votre Carte d'identification</Text>
+          <Scanner
+            onChange={onChange}
+            style={styles.scaner}
+          />
         </View>
-          </View>
-      </ScrollView>
+
+        {firstName && name ?
+          <>
+            <View style={styles.row}>
+              <TextEntryComponent
+                value={firstName}
+                editable={false}
+                style={{
+                  marginLeft: 2,
+                  marginRight: 2,
+                }} />
+              <TextEntryComponent
+                value={name}
+                editable={false}
+                style={{
+                  marginLeft: 2,
+                  marginRight: 2,
+                }} />
+            </View>
+            <View style={styles.row}>
+              <Button
+                route={url}
+                title="Scanner la boite"
+              />
+            </View>
+          </>
+          : null}
+      </View>
+    </ScrollView>
   );
 }
 
