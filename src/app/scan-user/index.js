@@ -3,18 +3,22 @@ import { useEffect, useState } from "react";
 import Scanner from "../../components/Scanner"
 import TextEntryComponent from "../../components/TextInput";
 import { getService } from '../../core/services/get.service';
+// import Button from "../../components/Button";
 
 
 export default function Page() {
 
   const [data, setData] = useState("data")
-  const [user, setUser] = useState("")
-  const onChange = ({ data }) => {
+  const [firstName, setFirstName] = useState("")
+  const [name, setName] = useState("")
+
+
+  const onChange = async ({ data }) => {
     setData(data)
-    console.log('index = ',data)
        
-    setUser(getService(data));
-    console.log('User = ', user);
+    const dataUser =  await getService(data)
+    setFirstName(dataUser.prenom)
+    setName(dataUser.nom)
      
   };
 
@@ -28,22 +32,32 @@ export default function Page() {
                       style={styles.scaner}
                       />
               </View>
-              <View style={styles.row}>
+
+              <View style={styles.row}>                
                 <TextEntryComponent
-                  value={"tata"}
+                  value={firstName}
                   editable={false}
                   style={{ 
                     marginLeft: 2,
                      marginRight: 2,
                   }} />
                 <TextEntryComponent
-                  value={"toto"}
+                  value={name}
                   editable={false}
                   style={{ 
                     marginLeft: 2,
                      marginRight: 2,
                   }} />
               </View>
+        <View style={styles.row}>
+            <Button
+              route="/scan-user"
+              title="Scanner votre carte"
+            />
+          
+
+
+        </View>
           </View>
       </ScrollView>
   );

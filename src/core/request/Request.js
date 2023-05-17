@@ -10,7 +10,8 @@ export const Request = async (path, data ) => {
     };
 
     return axios(options)
-    .then(response => response)
+    .then(response => response )
+    
     .catch(async function (error) {
        return Promise.reject({ "message": "Une erreur est survenue", "code": 500 });
     });
