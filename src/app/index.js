@@ -8,13 +8,7 @@ import {getQRCode} from '../core/services/spots.service';
 
 export default function Page() {
 
-  useEffect(() => {
-    (async () => {
-       const a = await getQRCode();
-       console.log('index=', a);
-    })
-      ();
-  }, []);
+
 
 
 
@@ -41,7 +35,7 @@ export default function Page() {
                       title="voir la carte"
                   />
                   <Button
-                      route="/"
+                      route="/scan-user"
                       title="Scanner votre carte"
                   />
               </View>

@@ -1,30 +1,8 @@
 import { StyleSheet, Text, View, Image, ScrollView, Button } from "react-native";
 import Map from "../../components/Map";
-import { useState } from 'react';
 
 
 export default function Page() {
-
-    const [latitude, setLatitude] = useState("latitude")
-    const [longitude, setLongitude] = useState("longitude")
-    const [adress, setAdress] = useState("adress")
-  
-    const [imageUri, setImageUri] = useState(null);
-  
-    const handlePictureTaken = (image) => {
-      setImageUri(image.uri);
-    };
-  
-    const onChange = ({ latitude, longitude, adress }) => {
-      setLatitude(latitude)
-      setLongitude(longitude)
-      setAdress(adress)
-    };
-  
-    const deletePicture = ()=>{
-      setImageUri(null)
-    };
-  
     return (
         <View style={styles.container}>
             <View style={styles.main}>

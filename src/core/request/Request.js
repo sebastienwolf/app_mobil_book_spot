@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const Request = async (path, data ) => {
     const options = {
-        baseURL: "https://625a-2a01-cb1c-1326-1300-fb5f-e56f-8569-a9c2.ngrok-free.app",
+        baseURL: "https://b2eb-2a01-cb1c-1326-1300-743b-ed4f-b2f4-6067.ngrok-free.app",
         url: path.url,
         method: path.method,
         headers: { 'Content-Type': 'application/json' },
