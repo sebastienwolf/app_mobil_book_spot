@@ -20,7 +20,7 @@ export default function Page() {
     setFirstName(dataUser.prenom)
     setName(dataUser.nom)
      
-    setUrl("/api/scan/" + dataUser.id)
+    setUrl("/scan/" + dataUser.id)
     console.log("url",url)
   };
 
