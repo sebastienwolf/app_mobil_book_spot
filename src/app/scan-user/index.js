@@ -4,6 +4,7 @@ import Scanner from "../../components/Scanner"
 import TextEntryComponent from "../../components/TextInput";
 import { getService } from '../../core/services/get.service';
 import Button from "../../components/Button";
+import { Stack } from "expo-router";
 
 
 export default function Page() {
@@ -26,8 +27,12 @@ export default function Page() {
 
   return (
     <ScrollView>
+
       <View style={styles.container}>
         <View style={styles.main}>
+          <Stack.Screen
+            options={{ title: "scan-user" }}
+          />
           <Text style={styles.title}>Scanner votre Carte d'identification</Text>
           <Scanner
             onChange={onChange}
@@ -56,8 +61,9 @@ export default function Page() {
             <View style={styles.row}>
               <Button
                 route={url}
-                title="Scanner la boite"
+                title="Scanner le livre"
               />
+       
             </View>
           </>
           : null}
