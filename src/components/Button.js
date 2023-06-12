@@ -4,6 +4,7 @@ import { useRouter } from "expo-router";
 export default function Button( {route = "/", ...props}) {
     const router = useRouter();
     const onPress = () => {
+      console.log(route)
         router.push(route)
     }
 

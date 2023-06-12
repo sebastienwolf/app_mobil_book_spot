@@ -35,7 +35,7 @@ export default function Page() {
                       title="voir la carte"
                   />
                   <Button
-                      route="/scan-user"
+                      route="/scan"
                       title="Scanner votre carte"
                   />
               </View>

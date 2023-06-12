@@ -1,57 +1,50 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, ScrollView, Modal, TouchableOpacity } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { getService } from "../../core/services/get.service";
+import TextEntryComponent from "../../components/TextInput";
 
 export default function Page() {
   const [modalVisible, setModalVisible] = useState(false);
-  const [scannedData, setScannedData] = useState(null);
+  const [scannedData, setScannedData] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [idSpot, setIdSpot] = useState("");
   const [idLivre, setIdLivre] = useState("");
 
+
   const handleBarCodeScanned = async ({ data }) => {
-    setScannedData(data);
-    setModalVisible(false);
+    if (data) {
+      // setScannedData(data);
+      setModalVisible(false);
 
-    if (!firstName && !lastName) {
-      console.log('prenom')
-      const dataUser = await getService(scannedData);
-      console.log("info ajax prenom", dataUser);
-      setFirstName(dataUser.prenom);
-      setLastName(dataUser.nom);
-      setScannedData(null);
-    } else if (!idSpot) {
-      console.log('spot')
+      if (!firstName && !lastName) {
+        try {
+          const dataUser = await getService(data);
+          setFirstName(dataUser.prenom);
+          setLastName(dataUser.nom);
+        } catch (error) {
+          console.error("Ce profil n'est pas valide");
+        }
 
-      const dataspot = await getService(scannedData);
-      console.log("info ajax spot", dataspot);
-      setIdSpot(dataspot.id);
-      setScannedData(null);
-    } else {
-      const dataLivre = await getService(scannedData);
-      console.log("info ajax spot", dataLivre);
-      setIdLivre(dataLivre.id);
-      setScannedData(null);
+      } else if (!idSpot) {
+        try {
+          const dataspot = await getService(data);
+          setIdSpot(dataspot.id);
+        } catch (error) {
+          console.error("Le qr code de la boite n'est pas valide");
+        }
+      } else {
+        try {
+          const dataLivre = await getService(data);
+          setIdLivre(dataLivre.id);
+        } catch (error) {
+          console.error("Le qr code du livre n'est pas valide");
+        }
+      }
     }
 
   };
-
-  // const takeUser = async ({ data }) => {
-  //   handleBarCodeScanned();
-
-  //   try {
-  //     const dataUser = await getService(scannedData);
-  //     console.log("info ajax",dataUser);
-  //     setFirstName(dataUser.prenom);
-  //     setLastName(dataUser.nom);
-  //   } catch (error) {
-  //     console.error("Erreur lors de la récupération des données de l'API :");
-  //   }
-  // };
-
-
 
   return (
     <ScrollView>
@@ -63,8 +56,10 @@ export default function Page() {
           {firstName && lastName ?
             <>
               <View style={styles.resultContainer}>
-                {firstName && <Text style={styles.resultData}>Prénom: {firstName}</Text>}
-                {lastName && <Text style={styles.resultData}>Nom: {lastName}</Text>}
+              <TextEntryComponent value={firstName} />
+              <TextEntryComponent value={firstName} />
+                {/* {firstName && <Text style={styles.resultData}>Prénom: {firstName}</Text>}
+                {lastName && <Text style={styles.resultData}>Nom: {lastName}</Text>} */}
               </View>
             </>
             : null}

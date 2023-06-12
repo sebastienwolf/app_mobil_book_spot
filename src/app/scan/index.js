@@ -1,27 +1,49 @@
-import { StyleSheet, Text, Image, View, ScrollView } from "react-native";
-import { useState } from "react";
-import Scanner from "../../components/Scanner"
+import React, { useState, useEffect } from "react";
+import { StyleSheet, Text, View, ScrollView, Modal, TouchableOpacity } from "react-native";
+import { BarCodeScanner } from "expo-barcode-scanner";
+import { getService } from "../../core/services/get.service";
 import TextEntryComponent from "../../components/TextInput";
-import { getService } from '../../core/services/get.service';
-import Button from "../../components/Button";
-
 
 export default function Page() {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [scannedData, setScannedData] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [idSpot, setIdSpot] = useState("");
+  const [idLivre, setIdLivre] = useState("");
 
-  const [data, setData] = useState("data")
-  const [firstName, setFirstName] = useState("")
-  const [name, setName] = useState("")
-  const [url, setUrl] = useState("")
 
-  const onChange = async ({ data }) => {
-    setData(data)
-       
-    const dataUser =  await getService(data)
-    setFirstName(dataUser.prenom)
-    setName(dataUser.nom)
-     
-    setUrl("/scan/" + dataUser.id)
-    console.log("url",url)
+  const handleBarCodeScanned = async ({ data }) => {
+    if (data) {
+      // setScannedData(data);
+      setModalVisible(false);
+
+      if (!firstName && !lastName) {
+        try {
+          const dataUser = await getService(data);
+          setFirstName(dataUser.prenom);
+          setLastName(dataUser.nom);
+        } catch (error) {
+          console.error("Ce profil n'est pas valide");
+        }
+
+      } else if (!idSpot) {
+        try {
+          const dataspot = await getService(data);
+          setIdSpot(dataspot.id);
+        } catch (error) {
+          console.error("Le qr code de la boite n'est pas valide");
+        }
+      } else {
+        try {
+          const dataLivre = await getService(data);
+          setIdLivre(dataLivre.id);
+        } catch (error) {
+          console.error("Le qr code du livre n'est pas valide");
+        }
+      }
+    }
+
   };
 
   return (
@@ -29,42 +51,52 @@ export default function Page() {
       <View style={styles.container}>
         <View style={styles.main}>
           <Text style={styles.title}>Scanner votre Carte d'identification</Text>
-          <Scanner
-            onChange={onChange}
-            style={styles.scaner}
-          />
-        </View>
 
-        {firstName && name ?
-          <>
-            <View style={styles.row}>
-              <TextEntryComponent
-                value={firstName}
-                editable={false}
-                style={{
-                  marginLeft: 2,
-                  marginRight: 2,
-                }} />
-              <TextEntryComponent
-                value={name}
-                editable={false}
-                style={{
-                  marginLeft: 2,
-                  marginRight: 2,
-                }} />
-            </View>
-            <View style={styles.row}>
-              <Button
-                route={url}
-                title="Scanner la boite"
-              />
-            </View>
-          </>
-          : null}
+
+          {firstName && lastName ?
+            <>
+              <View style={styles.resultContainer}>
+              <TextEntryComponent value={firstName} />
+              <TextEntryComponent value={firstName} />
+                {/* {firstName && <Text style={styles.resultData}>Prénom: {firstName}</Text>}
+                {lastName && <Text style={styles.resultData}>Nom: {lastName}</Text>} */}
+              </View>
+            </>
+            : null}
+          {idSpot ?
+            <>
+              <View style={styles.resultContainer}>
+                {idSpot && <Text style={styles.resultData}>Boite n°: {idSpot}</Text>}
+              </View>
+            </>
+            : null}
+          {idLivre ?
+            <>
+              <View style={styles.resultContainer}>
+                {idLivre && <Text style={styles.resultData}>Prénom: {idLivre}</Text>}
+              </View>
+            </>
+            : null}
+          <TouchableOpacity onPress={() => setModalVisible(true)}>
+            <Text style={styles.scanButton}>Scanner le QR Code</Text>
+          </TouchableOpacity>
+        </View>
       </View>
+      <Modal visible={modalVisible} animationType="slide">
+        <View style={styles.modalContainer}>
+          <BarCodeScanner
+            onBarCodeScanned={handleBarCodeScanned}
+            style={StyleSheet.absoluteFillObject}
+          />
+          <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisible(false)}>
+            <Text style={styles.closeButtonText}>Fermer</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
     </ScrollView>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -82,17 +114,39 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     fontWeight: "bold",
-    textAlign:"center"
+    textAlign: "center",
   },
-  scanner: {
-    width: 150,
-    height: 150,
+  scanButton: {
+    fontSize: 20,
+    padding: 10,
+    backgroundColor: "#0080FF",
+    color: "#FFF",
+    textAlign: "center",
+    borderRadius: 5,
   },
-  row: {
-    margin:10,
-    Width: "100%",
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+  resultContainer: {
+    marginTop: 20,
+    alignItems: "center",
+  },
+  resultText: {
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  resultData: {
+    fontSize: 16,
+    marginTop: 10,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "flex-end",
+  },
+  closeButton: {
+    backgroundColor: "#FF0000",
+    padding: 15,
+  },
+  closeButtonText: {
+    color: "#FFF",
+    fontSize: 16,
+    textAlign: "center",
   },
 });
