@@ -7,11 +7,6 @@ import {getQRCode} from '../core/services/spots.service';
 
 
 export default function Page() {
-
-
-
-
-
   return (
       <ScrollView>
           <View style={styles.container}>
@@ -33,10 +28,12 @@ export default function Page() {
                   <Button
                       route="/map"
                       title="voir la carte"
+                      icon="map"
                   />
                   <Button
                       route="/scan"
                       title="Scanner votre carte"
+                      icon="qrcode-scan"
                   />
               </View>
           </View>

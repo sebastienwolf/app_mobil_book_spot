@@ -1,25 +1,17 @@
-import { StyleSheet, Button as ButtonNative } from "react-native";
 import { useRouter } from "expo-router";
+import { Button as ButonPaper } from "react-native-paper";
 
-export default function Button( {route = "/", ...props}) {
+
+export default function Button( {route = "/",title, ...props}) {
     const router = useRouter();
-    const onPress = () => {
-      console.log(route)
+    const changePage = () => {
         router.push(route)
     }
 
   return (
-    <ButtonNative
-    onPress={onPress}
-    color="#841584"
-    accessibilityLabel="Learn more about this purple button"
-    {...props}
-  />
+    <ButonPaper mode="contained" {...props} onPress={() => changePage()}>
+    {title}
+  </ButonPaper>
+  
   );
 }
-
-
-
-const styles = StyleSheet.create({
- 
-});
