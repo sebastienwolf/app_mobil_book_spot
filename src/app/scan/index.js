@@ -2,17 +2,18 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, ScrollView, Modal, TouchableOpacity } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { getService } from "../../core/services/get.service";
-import TextComponent from "../../components/Text";
-import TitleText from "../../components/TitleText";
-import { MaterialCommunityIcons } from 'react-native-vector-icons';
+import { Text as TextPaper } from 'react-native-paper';
 import Button from "../../components/Button";
 import { Button as ButtonPaper } from "react-native-paper";
 
 export default function Page() {
   const [modalVisible, setModalVisible] = useState(false);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
   const [idSpot, setIdSpot] = useState("");
+  const [spotName, setSpotName] = useState("");
+  const [spotStreet, setSpotStreet] = useState("");
+  const [spotCP, setSpotCP] = useState("");
+  const [spotCity, setSpotCity] = useState("");
+
   const [auteur, setAuteur] = useState("");
   const [title, setTitle] = useState("");
   const [notice, setNotice] = useState("1. Veuillez scanner le QR code de la boite à livre.")
@@ -25,6 +26,10 @@ export default function Page() {
         try {
           const dataspot = await getService(data);
           setIdSpot(dataspot.id);
+          setSpotName(dataspot.name);
+          setSpotStreet(dataspot.street);
+          setSpotCP(dataspot.cp);
+          setSpotCity(dataspot.city);
           setNotice("2. Veuillez scanner le QR code du livre.")
         } catch (error) {
           console.error("Le qr code de la boite n'est pas valide");
@@ -51,22 +56,26 @@ export default function Page() {
           {idSpot ?
             <>
               <View style={styles.resultContainer}>
-                <TitleText value={"Information de la boite"} />
-                <TextComponent value={"Boite n° : " + idSpot} />
+                <TextPaper variant="titleMedium">Information de la boite</TextPaper>
+                <TextPaper variant="bodyMedium">{spotName}</TextPaper>
+                <TextPaper variant="bodyMedium">{spotStreet}</TextPaper>
+                <TextPaper variant="bodyMedium">{spotCP} {spotCity}</TextPaper>
               </View>
             </>
             : null}
           {title && auteur ?
             <>
               <View style={styles.resultContainer}>
-                <TitleText value={"Information du livre"} />
-                <TextComponent value={"Titre : " + title} />
-                <TextComponent value={"Auteur : " + auteur} />
+                <TextPaper variant="titleMedium">Information du livre</TextPaper>
+                <TextPaper variant="bodyMedium">Titre : {title}</TextPaper>
+                <TextPaper variant="bodyMedium">Auteur : {auteur}</TextPaper>
+         
               </View>
             </>
             : null}
 
-          <TextComponent value={notice} style={styles.textNotice} />
+          <TextPaper style={styles.textNotice} variant="bodyMedium">{notice}</TextPaper>
+          
 
           {title && auteur && idSpot ?
             <>
