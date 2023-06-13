@@ -1,7 +1,7 @@
 {
   "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
+    "start": "expo start -c",
+    "android": "expo start --android -c",
     "ios": "expo start --ios",
     "web": "expo start --web"
   },

@@ -5,6 +5,7 @@
       "bundler": "metro"
     },
     "name": "book-app",
-    "slug": "book-app"
+    "slug": "book-app",
+    "orientation": "portrait"
   }
 }

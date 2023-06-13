@@ -35,11 +35,21 @@ export function Provider(props) {
 
   useProtectedRoute(user);
 
+  const signIn = (dataUser) => {
+    console.log(dataUser)
+    setAuth( dataUser );
+  };
+
+  const signOut = () => {
+
+    setAuth(null);
+  };
+
   return (
     <AuthContext.Provider
-      value={{
-        signIn: () => setAuth({}),
-        signOut: () => setAuth(null),
+    value={{
+        signIn,
+        signOut,
         user,
       }}
     >
