@@ -1,16 +1,22 @@
-import { StyleSheet, Text, Image, View, ScrollView } from "react-native";
+import { StyleSheet, Text, Image, View, ScrollView, useEffect } from "react-native";
 import Button from "../components/Button";
 import logo from "../../assets/pictures/logo2.png";
+import { useAuth } from "../context/auth";
+
+
 
 
 
 export default function Page() {
+  const { user } = useAuth();
+
   return (
       <ScrollView>
           <View style={styles.container}>
               <View style={styles.main}>
                   <Image source={logo} style={{ height: 200, maxWidth: "100%", resizeMode: "contain" }} />
-                  <Text style={styles.title}>Service des boites à livre</Text>
+                  <Text style={styles.title}>Bonjour {user.prenom} {user.nom} </Text>
+                
                   <Text style={styles.subtitle}>
                       Bienvenue sur le service des boites à livre de Salon de Provence.
                       Vous pourrez trouver les boites disséminer dans la ville.
