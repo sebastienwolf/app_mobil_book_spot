@@ -5,7 +5,8 @@ import { getService } from "../../core/services/get.service";
 import TextComponent from "../../components/Text";
 import TitleText from "../../components/TitleText";
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
-import { Button } from "react-native-paper";
+import Button from "../../components/Button";
+import { Button as ButtonPaper } from "react-native-paper";
 
 export default function Page() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -14,29 +15,17 @@ export default function Page() {
   const [idSpot, setIdSpot] = useState("");
   const [auteur, setAuteur] = useState("");
   const [title, setTitle] = useState("");
-  const [notice, setNotice] = useState("1. Veuillez scanner le QR code de votre carte d'adhérent.")
+  const [notice, setNotice] = useState("1. Veuillez scanner le QR code de la boite à livre.")
 
   const handleBarCodeScanned = async ({ data }) => {
     if (data) {
       setModalVisible(false);
 
-      if (!firstName && !lastName) {
-        console.log("prénom")
-        try {
-          const dataUser = await getService(data);
-          console.log(dataUser)
-          setFirstName(dataUser.prenom);
-          setLastName(dataUser.nom);
-          setNotice("2. Veuillez scanner le QR code de la boite à livre.")
-        } catch (error) {
-          console.error("Ce profil n'est pas valide");
-        }
-
-      } else if (!idSpot) {
+      if (!idSpot) {
         try {
           const dataspot = await getService(data);
           setIdSpot(dataspot.id);
-          setNotice("3. Veuillez scanner le QR code du livre.")
+          setNotice("2. Veuillez scanner le QR code du livre.")
         } catch (error) {
           console.error("Le qr code de la boite n'est pas valide");
         }
@@ -45,7 +34,7 @@ export default function Page() {
           const dataLivre = await getService(data);
           setAuteur(dataLivre.auteur);
           setTitle(dataLivre.name);
-          setNotice("")
+          setNotice("Veuillez choisir si vous souhaitez déposer un livre ou l'emprunter.")
         } catch (error) {
           console.error("Le qr code du livre n'est pas valide");
         }
@@ -59,17 +48,6 @@ export default function Page() {
       <View style={styles.container}>
         <View style={styles.main}>
           <Text style={styles.title}>Veuillez suivre les instructions </Text>
-
-
-          {firstName && lastName ?
-            <>
-              <View style={styles.resultContainer}>
-                <TitleText value={"Information de l'utilisateur"} />
-                <TextComponent value={"Prénom : " + firstName} />
-                <TextComponent value={"Nom : " + lastName} />
-              </View>
-            </>
-            : null}
           {idSpot ?
             <>
               <View style={styles.resultContainer}>
@@ -90,26 +68,31 @@ export default function Page() {
 
           <TextComponent value={notice} style={styles.textNotice} />
 
-          {title && auteur && idSpot && firstName && lastName ?
+          {title && auteur && idSpot ?
             <>
-              <View style={styles.modalContainer}>
-                <Button
-                  route="/scan"
-                  title="Déposer votre livre"
-                  icon="book"
-                />
-                <Button
-                  route="/scan"
-                  title="retirer votre livre"
-                  icon="book-reader"
-                />
+              <View style={styles.groupButton}>
+                <View style={styles.buttonContainer}>
+                  <Button
+                    route="/change/depot"
+                    title="Déposer"
+                    icon="book-plus-outline"
+                  />
+                </View>
+                <View style={styles.buttonContainer}>
+                  <Button style={{ backgroundColor: "#B01F79" }}
+                    route="/change/remove"
+                    title="retirer"
+                    icon="book-open-page-variant"
+
+                  />
+                </View>
               </View>
             </> :
             <>
               <TouchableOpacity onPress={() => setModalVisible(true)}>
-                <Button icon="qrcode-scan" mode="contained">
-                  Scanner votre carte
-                </Button>
+                <ButtonPaper icon="qrcode-scan" mode="contained">
+                  Lancer le scan
+                </ButtonPaper>
               </TouchableOpacity>
             </>}
         </View>
@@ -188,7 +171,16 @@ const styles = StyleSheet.create({
   textNotice: {
     color: "#AF361C",
   },
+  groupButton: {
+    flex: 1,
+    flexDirection: "row",
+  },
 
+  buttonContainer: {
+    flex: 1,
+    width: "50%",
+    paddingHorizontal: 5,
+  },
 
   scanButtonContainer: {
     flexDirection: 'row',
