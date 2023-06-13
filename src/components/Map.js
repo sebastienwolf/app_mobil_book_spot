@@ -1,8 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import MapView, { Marker } from 'react-native-maps';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import * as Location from 'expo-location';
 import { getQRCode } from '../core/services/spots.service';
+import { Callout } from 'react-native-maps';
+import Button from "../components/Button";
 
 export default function Map() {
   const [markers, setMarkers] = useState([]);
@@ -32,6 +34,10 @@ export default function Map() {
         id: item.id,
         latitude: item.latitude,
         longitude: item.longitude,
+        title: item.name,
+        street: item.street,
+        city: item.cp + " " + item.city,
+
       }));
       setMarkers(newMarkers);
     };
@@ -60,7 +66,19 @@ export default function Map() {
               latitude: marker.latitude,
               longitude: marker.longitude,
             }}
-          />
+          >
+            <Callout>
+              <View>
+                <Text>{marker.title}</Text>
+                <Text>{marker.street}</Text>
+                <Text>{marker.city}</Text>
+                <Button style={{ backgroundColor: "#B01F79", color: "#091238" }}
+                  route={"/map/" + marker.id}
+                  title="voir les livres"
+                />
+              </View>
+            </Callout>
+          </Marker>
         ))}
       </MapView>
     </View>
