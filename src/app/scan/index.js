@@ -21,8 +21,10 @@ export default function Page() {
       setModalVisible(false);
 
       if (!firstName && !lastName) {
+        console.log("prénom")
         try {
           const dataUser = await getService(data);
+          console.log(dataUser)
           setFirstName(dataUser.prenom);
           setLastName(dataUser.nom);
           setNotice("2. Veuillez scanner le QR code de la boite à livre.")
@@ -89,22 +91,27 @@ export default function Page() {
           <TextComponent value={notice} style={styles.textNotice} />
 
           {title && auteur && idSpot && firstName && lastName ?
-            null :
             <>
-<TouchableOpacity onPress={() => setModalVisible(true)}>
-      <View style={styles.scanButtonContainer}>
-        <View style={styles.iconContainer}>
-          <MaterialCommunityIcons name="qrcode-scan" size={30} color="#0080FF" />
-        </View>
-        <Text style={styles.scanButtonText}>Lancer un scan</Text>
-      </View>
-    </TouchableOpacity>
+              <View style={styles.modalContainer}>
+                <Button
+                  route="/scan"
+                  title="Déposer votre livre"
+                  icon="book"
+                />
+                <Button
+                  route="/scan"
+                  title="retirer votre livre"
+                  icon="book-reader"
+                />
+              </View>
+            </> :
+            <>
+              <TouchableOpacity onPress={() => setModalVisible(true)}>
+                <Button icon="qrcode-scan" mode="contained">
+                  Scanner votre carte
+                </Button>
+              </TouchableOpacity>
             </>}
-
-            <Button icon="camera" mode="contained">
-    Press me
-  </Button>
-
         </View>
       </View>
       <Modal visible={modalVisible} animationType="slide">
