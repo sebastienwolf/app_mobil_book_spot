@@ -1,8 +1,6 @@
 import { StyleSheet, Text, Image, View, ScrollView } from "react-native";
-import { useEffect } from "react";
 import Button from "../components/Button";
 import logo from "../../assets/pictures/logo2.png";
-import {getQRCode} from '../core/services/spots.service';
 
 
 
