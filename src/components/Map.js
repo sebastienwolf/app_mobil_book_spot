@@ -3,12 +3,12 @@ import MapView, { Marker, Callout } from 'react-native-maps';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import * as Location from 'expo-location';
 import { getQRCode } from '../core/services/spots.service';
-import Button from "../components/Button";
+import { useRouter } from "expo-router";
 
 export default function Map() {
   const [markers, setMarkers] = useState([]);
-
   const mapRef = useRef(null);
+  const router = useRouter();
   const [latitudeMap, setLatitudeMap] = useState(43.640199);
   const [longitudeMap, setLongitudeMap] = useState(5.097022);
 
