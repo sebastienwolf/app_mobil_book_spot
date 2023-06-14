@@ -1,9 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
-import MapView, { Marker } from 'react-native-maps';
-import { StyleSheet, View, Text } from 'react-native';
+import MapView, { Marker, Callout } from 'react-native-maps';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import * as Location from 'expo-location';
 import { getQRCode } from '../core/services/spots.service';
-import { Callout } from 'react-native-maps';
 import Button from "../components/Button";
 
 export default function Map() {
@@ -45,6 +44,11 @@ export default function Map() {
     createMarkers();
   }, []);
 
+  const handleMarkerPress = (id) => {
+    console.log("route spot","/spot/"+id);
+    router.push("/spot/"+id)
+  };
+
   return (
     <View style={styles.container}>
       <MapView
@@ -67,15 +71,17 @@ export default function Map() {
               longitude: marker.longitude,
             }}
           >
-            <Callout>
-              <View>
-                <Text>{marker.title}</Text>
-                <Text>{marker.street}</Text>
-                <Text>{marker.city}</Text>
-                <Button style={{ backgroundColor: "#B01F79", color: "#091238" }}
-                  route={"/map/" + marker.id}
-                  title="voir les livres"
-                />
+           <Callout >
+              <View style={styles.calloutContainer}>
+                <Text style={styles.calloutText}>{marker.street}</Text>
+                <Text style={styles.calloutText}>{marker.title}</Text>
+                <Text style={styles.calloutText}>{marker.city}</Text>
+                <TouchableOpacity
+                  style={ styles.button}
+                  onPress={() => handleMarkerPress(marker.id)}
+                >
+                  <Text>voir les livres</Text>
+                </TouchableOpacity>
               </View>
             </Callout>
           </Marker>
@@ -92,5 +98,19 @@ const styles = StyleSheet.create({
   map: {
     width: '100%',
     height: '100%',
+  },
+  button: {
+    backgroundColor: "#F08488",
+    borderRadius: 25,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  calloutText: {
+    textAlign: 'center',
+    marginBottom: 2,
+  },
+  calloutContainer: {
+    padding: 10,
+    minWidth: 150,
   },
 });

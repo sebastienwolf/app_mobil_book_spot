@@ -18,14 +18,11 @@ export default function Page() {
             </> : null}
 
           <Text style={styles.subtitle}>
-            Bienvenue sur le service des boites à livre de Salon de Provence.
+            Bienvenue sur le service des boites à livres de Salon de Provence.
             Vous pourrez trouver les boites disséminer dans la ville.
             Vous pourrez ainsi voir les livres qui s'y trouvent grâce à notre application.
           </Text>
-          <Text style={styles.subtitle}>
-            Pour récupérer un livre ou en déposer dans les boites, penser à venir à l'hôtel
-            de ville de ville pour récupérer votre carte d'identification pour les utiliser.
-          </Text>
+
           <Text style={styles.subtitle}>
             Bonne lecture de la part de Mme la Maire
           </Text>
