@@ -61,8 +61,8 @@ export default function Map() {
         region={{
           latitude: latitudeMap,
           longitude: longitudeMap,
-          latitudeDelta: 0.10,
-          longitudeDelta: 0.10,
+          latitudeDelta: 0.04,
+          longitudeDelta: 0.04,
         }}
       >
         {markers.map((marker) => (
