@@ -3,6 +3,7 @@ import { Text as TextPaper } from 'react-native-paper';
 import { useAuth } from "../../context/auth";
 import { useEffect, useState } from "react";
 import Button from "../../components/Button";
+import { Stack } from 'expo-router';
 
 export default function Page() {
     const { user } = useAuth();
@@ -15,6 +16,9 @@ export default function Page() {
 
     return (
         <ScrollView>
+            <Stack.Screen options={{
+                title: "Retrait d'un livre"
+            }} />
             <View style={styles.container}>
                 <View style={styles.main}>
 
@@ -38,10 +42,10 @@ export default function Page() {
                     </TextPaper>
 
                     <Button
-                    route="/"
-                    title="accueil"
-                    icon="home"
-                  />
+                        route="/"
+                        title="accueil"
+                        icon="home"
+                    />
 
                 </View>
             </View>

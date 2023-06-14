@@ -2,6 +2,7 @@ import { StyleSheet, Text, Image, View, ScrollView } from "react-native";
 import Button from "../components/Button";
 import logo from "../../assets/pictures/logo2.png";
 import { useAuth } from "../context/auth";
+import { Stack } from 'expo-router';
 
 export default function Page() {
   const { user } = useAuth();
@@ -9,6 +10,9 @@ export default function Page() {
 
   return (
     <ScrollView>
+      <Stack.Screen options={{
+        title: "Acceuil"
+      }} />
       <View style={styles.container}>
         <View style={styles.main}>
           <Image source={logo} style={{ height: 200, maxWidth: "100%", resizeMode: "contain" }} />

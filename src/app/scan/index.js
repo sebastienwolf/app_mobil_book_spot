@@ -5,6 +5,7 @@ import { getService } from "../../core/services/get.service";
 import { Text as TextPaper } from 'react-native-paper';
 import Button from "../../components/Button";
 import { Button as ButtonPaper } from "react-native-paper";
+import { Stack } from 'expo-router';
 
 export default function Page() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -50,6 +51,9 @@ export default function Page() {
 
   return (
     <ScrollView>
+      <Stack.Screen options={{
+        title: "Transaction d'un livre"
+      }} />
       <View style={styles.container}>
         <View style={styles.main}>
           <Text style={styles.title}>Veuillez suivre les instructions </Text>
@@ -69,13 +73,13 @@ export default function Page() {
                 <TextPaper variant="titleMedium">Information du livre</TextPaper>
                 <TextPaper variant="bodyMedium">Titre : {title}</TextPaper>
                 <TextPaper variant="bodyMedium">Auteur : {auteur}</TextPaper>
-         
+
               </View>
             </>
             : null}
 
           <TextPaper style={styles.textNotice} variant="bodyMedium">{notice}</TextPaper>
-          
+
 
           {title && auteur && idSpot ?
             <>

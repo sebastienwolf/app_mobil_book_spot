@@ -1,14 +1,20 @@
 import { StyleSheet, View } from "react-native";
 import Map from "../../components/Map";
 import { Text as TextPaper, Card } from 'react-native-paper';
+import { Stack } from 'expo-router';
 
 
 export default function Page() {
   return (
+
     <View style={styles.container}>
+      <Stack.Screen options={{
+        title: "Carte des boites"
+      }} />
+
       <View style={styles.main}>
         <View style={styles.title}>
-        <TextPaper style={styles.text} variant="headlineMedium">Les boites de la ville</TextPaper>
+          <TextPaper style={styles.text} variant="headlineMedium">Les boites de la ville</TextPaper>
           <TextPaper style={styles.text} variant="bodyLarge">Veuillez sélectionner votre boîte pour voir les livres qui s'y trouvent.</TextPaper>
         </View>
         <View style={styles.map}>

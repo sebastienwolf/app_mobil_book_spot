@@ -5,7 +5,8 @@ import { BarCodeScanner } from "expo-barcode-scanner";
 import { Button } from "react-native-paper";
 import { StyleSheet, Text, View, Modal, TouchableOpacity, Image } from "react-native";
 import { Text as TextPaper } from 'react-native-paper';
-import logo from'../../../assets/pictures/logo2.png';
+import logo from '../../../assets/pictures/logo2.png';
+import { Stack } from 'expo-router';
 
 export default function SignIn() {
     const { signIn } = useAuth();
@@ -27,9 +28,12 @@ export default function SignIn() {
 
     return (
         <View style={styles.container}>
+            <Stack.Screen options={{
+                title: "Connexion"
+            }} />
             <View style={styles.main}>
-            <Image source={logo} style={{ height: 200, maxWidth: "100%", resizeMode: "contain" }} />
-               
+                <Image source={logo} style={{ height: 200, maxWidth: "100%", resizeMode: "contain" }} />
+
                 <TextPaper style={styles.text} variant="labelLarge">
                     Si vous ne disposez pas d'une carte d'identification, nous vous encourageons vivement à vous rendre à la mairie pour obtenir la vôtre.
                 </TextPaper>
