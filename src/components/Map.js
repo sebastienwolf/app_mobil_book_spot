@@ -26,7 +26,6 @@ export default function Map() {
   }, []);
 
   useEffect(() => {
-    // Créer les marqueurs en boucle à partir du tableau de données
     const createMarkers = async () => {
       const data = await getQRCode();
       const newMarkers = data.map((item) => ({
@@ -36,7 +35,6 @@ export default function Map() {
         title: item.name,
         street: item.street,
         city: item.cp + " " + item.city,
-
       }));
       setMarkers(newMarkers);
     };
@@ -45,8 +43,12 @@ export default function Map() {
   }, []);
 
   const handleMarkerPress = (id) => {
-    console.log("route spot","/spot/"+id);
-    router.push("/spot/"+id)
+    console.log("route spot", "/spot/" + id);
+    router.push("/spot/" + id);
+  };
+
+  const handleButtonPress = (id) => {
+    handleMarkerPress(id);
   };
 
   return (
@@ -71,17 +73,19 @@ export default function Map() {
               longitude: marker.longitude,
             }}
           >
-           <Callout >
+            <Callout  onPress={() => handleButtonPress(marker.id)}>
               <View style={styles.calloutContainer}>
                 <Text style={styles.calloutText}>{marker.street}</Text>
                 <Text style={styles.calloutText}>{marker.title}</Text>
                 <Text style={styles.calloutText}>{marker.city}</Text>
-                <TouchableOpacity
-                  style={ styles.button}
-                  onPress={() => handleMarkerPress(marker.id)}
-                >
-                  <Text>voir les livres</Text>
-                </TouchableOpacity>
+                <View style={styles.buttonContainer}>
+                  <TouchableOpacity
+                    style={styles.button}
+                   
+                  >
+                    <Text style={styles.buttonText}>voir les livres</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             </Callout>
           </Marker>
