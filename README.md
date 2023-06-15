@@ -23,3 +23,9 @@ npx create-expo-app -e with-router
 ## 📝 API   
   
 https://github.com/sebastienwolf/api_book
+
+## 📝 expo publish   
+(Le lien api change à chaque fois que je relance le serveur ngrock de mon api du coup pas vraiment opérationnel sans lancer l'api et le changer dans le code avant de faire un "npx expo publish")  
+  
+![image](https://github.com/sebastienwolf/app_mobil_book_spot/assets/90312970/0839e7b0-5dba-4e8a-8eb7-11878d4e134c)
+
