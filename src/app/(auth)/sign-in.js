@@ -27,7 +27,9 @@ export default function SignIn() {
                 signIn(dataUser)
             } catch (error) {
                 console.error("Ce profil n'est pas valide");
+                setIsLoading(false);
             }
+            
         };
     }
 

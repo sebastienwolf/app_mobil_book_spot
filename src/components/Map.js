@@ -43,6 +43,7 @@ export default function Map() {
         setIsLoading(false);
       } catch (error) {
         console.error("La carte est actuellement indisponible.");
+        setIsLoading(false);
       }
     };
 
