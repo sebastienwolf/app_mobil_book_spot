@@ -1,9 +1,9 @@
 import { StyleSheet, View, Image } from 'react-native';
 import { Text as TextPaper, Card } from 'react-native-paper';
 
-const CardsCompenent = ({ id, image, name, auteur, resume }) => {
+const CardsCompenent = ({ image, name, auteur, resume }) => {
     return (
-        <View key={id} style={styles.card}>
+        <View style={styles.card}>
             <Image
                 source={{ uri: image }}
                 style={styles.image}

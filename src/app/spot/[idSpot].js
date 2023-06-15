@@ -2,9 +2,8 @@ import { StyleSheet, View, ScrollView, Image } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { getService } from "../../core/services/get.service";
-import Button from "../../components/Button";
 import Cards from "../../components/Cards"
-import { Stack } from 'expo-router';
+import Header from '../../components/Header';
 
 export default function Page() {
     const { idSpot } = useLocalSearchParams();
@@ -21,15 +20,13 @@ export default function Page() {
 
     return (
         <ScrollView>
-            <Stack.Screen options={{
-                title: "Les Livres de la boite"
-            }} />
+            <Header title="Les Livres de la boite" />
             <View style={styles.container}>
                 <View style={styles.main}>
 
                     {books.map((book) => (
                         <Cards
-                            id={book.id}
+                            key={book.id}
                             image={book.image}
                             name={book.name}
                             auteur={book.auteur}
@@ -37,7 +34,6 @@ export default function Page() {
                         />
 
                     ))}
-
 
                 </View>
             </View>

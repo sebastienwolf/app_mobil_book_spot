@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, ScrollView, Modal, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, ScrollView, Modal, TouchableOpacity, Button } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { getService } from "../../core/services/get.service";
 import { Text as TextPaper } from 'react-native-paper';
-import Button from "../../components/Button";
+import ButtonComponent from "../../components/Button";
 import { Button as ButtonPaper } from "react-native-paper";
-import { Stack } from 'expo-router';
+import Header from '../../components/Header';
+
 
 export default function Page() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -14,7 +15,6 @@ export default function Page() {
   const [spotStreet, setSpotStreet] = useState("");
   const [spotCP, setSpotCP] = useState("");
   const [spotCity, setSpotCity] = useState("");
-
   const [auteur, setAuteur] = useState("");
   const [title, setTitle] = useState("");
   const [notice, setNotice] = useState("1. Veuillez scanner le QR code de la boite à livre.")
@@ -51,9 +51,8 @@ export default function Page() {
 
   return (
     <ScrollView>
-      <Stack.Screen options={{
-        title: "Transaction d'un livre"
-      }} />
+      <Header title="Transaction d'un livre"/>
+
       <View style={styles.container}>
         <View style={styles.main}>
           <Text style={styles.title}>Veuillez suivre les instructions </Text>
@@ -85,14 +84,14 @@ export default function Page() {
             <>
               <View style={styles.groupButton}>
                 <View style={styles.buttonContainer}>
-                  <Button
+                  <ButtonComponent
                     route="/change/depot"
                     title="Déposer"
                     icon="book-plus-outline"
                   />
                 </View>
                 <View style={styles.buttonContainer}>
-                  <Button style={{ backgroundColor: "#B01F79" }}
+                  <ButtonComponent style={{ backgroundColor: "#B01F79" }}
                     route="/change/remove"
                     title="retirer"
                     icon="book-open-page-variant"
@@ -153,12 +152,21 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   resultContainer: {
-    gap: 10,
-    marginTop: 20,
     alignItems: "center",
-    borderColor: 'black',
-    borderWidth: 1,
-    borderRadius: 5,
+    justifyContent: "center",
+    backgroundColor: "#FFFFFF",
+    borderRadius: 8,
+    padding: 16,
+    marginBottom: 16,
+    gap: 10,
+    elevation: 4,
+    shadowColor: "#000000",
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
   },
   resultText: {
     fontSize: 18,

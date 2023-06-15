@@ -2,16 +2,18 @@ import { useAuth } from "../../context/auth";
 import React, { useState } from "react"
 import { getService } from "../../core/services/get.service";
 import { BarCodeScanner } from "expo-barcode-scanner";
-import { Button } from "react-native-paper";
-import { StyleSheet, Text, View, Modal, TouchableOpacity, Image } from "react-native";
+import { Button as ButtonPaper } from "react-native-paper";
+import { StyleSheet, Text, View, Modal, TouchableOpacity, Image, Button } from "react-native";
 import { Text as TextPaper } from 'react-native-paper';
 import logo from '../../../assets/pictures/logo2.png';
 import { Stack } from 'expo-router';
+import { useLayoutEffect } from "react";
+
+
 
 export default function SignIn() {
     const { signIn } = useAuth();
     const [modalVisible, setModalVisible] = useState(false);
-
 
     const handleBarCodeScanned = async ({ data }) => {
         if (data) {
@@ -29,7 +31,7 @@ export default function SignIn() {
     return (
         <View style={styles.container}>
             <Stack.Screen options={{
-                title: "Connexion"
+                headerTitle:"Connexion",
             }} />
             <View style={styles.main}>
                 <Image source={logo} style={{ height: 200, maxWidth: "100%", resizeMode: "contain" }} />
@@ -47,9 +49,9 @@ export default function SignIn() {
                 </TextPaper>
                 <TextPaper variant="headlineSmall">Pour vous connecter :</TextPaper>
                 <TouchableOpacity onPress={() => setModalVisible(true)}>
-                    <Button icon="qrcode-scan" mode="contained">
+                    <ButtonPaper icon="qrcode-scan" mode="contained">
                         Scanner votre carte
-                    </Button>
+                    </ButtonPaper>
                 </TouchableOpacity>
 
                 <Modal visible={modalVisible} animationType="slide">
