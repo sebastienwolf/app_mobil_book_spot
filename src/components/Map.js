@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import MapView, { Marker, Callout } from 'react-native-maps';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import * as Location from 'expo-location';
 import { getQRCode } from '../core/services/spots.service';
 import { useRouter } from "expo-router";
@@ -11,6 +11,7 @@ export default function Map() {
   const router = useRouter();
   const [latitudeMap, setLatitudeMap] = useState(43.640199);
   const [longitudeMap, setLongitudeMap] = useState(5.097022);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -27,16 +28,22 @@ export default function Map() {
 
   useEffect(() => {
     const createMarkers = async () => {
-      const data = await getQRCode();
-      const newMarkers = data.map((item) => ({
-        id: item.id,
-        latitude: item.latitude,
-        longitude: item.longitude,
-        title: item.name,
-        street: item.street,
-        city: item.cp + " " + item.city,
-      }));
-      setMarkers(newMarkers);
+      try {
+        setIsLoading(true);
+        const data = await getQRCode();
+        const newMarkers = data.map((item) => ({
+          id: item.id,
+          latitude: item.latitude,
+          longitude: item.longitude,
+          title: item.name,
+          street: item.street,
+          city: item.cp + " " + item.city,
+        }));
+        setMarkers(newMarkers);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("La carte est actuellement indisponible.");
+      }
     };
 
     createMarkers();
@@ -73,7 +80,7 @@ export default function Map() {
               longitude: marker.longitude,
             }}
           >
-            <Callout  onPress={() => handleButtonPress(marker.id)}>
+            <Callout onPress={() => handleButtonPress(marker.id)}>
               <View style={styles.calloutContainer}>
                 <Text style={styles.calloutText}>{marker.street}</Text>
                 <Text style={styles.calloutText}>{marker.title}</Text>
@@ -81,7 +88,7 @@ export default function Map() {
                 <View style={styles.buttonContainer}>
                   <TouchableOpacity
                     style={styles.button}
-                   
+
                   >
                     <Text style={styles.buttonText}>voir les livres</Text>
                   </TouchableOpacity>

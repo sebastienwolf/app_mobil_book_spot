@@ -1,7 +1,6 @@
 import { View } from 'react-native';
 import { Stack } from "expo-router";
-import { Button } from 'react-native-paper';
-import React, { useState, useEffect } from "react";
+import { IconButton } from 'react-native-paper';
 import { useLayoutEffect } from "react";
 import { useRouter } from "expo-router";
 
@@ -19,8 +18,11 @@ const Header = ({ title }) => {
                 options={{
                     title: title,
                     headerRight: () => (
-                        <Button icon="home" mode="outlined" onPress={() => handleHome()}>
-                      </Button>
+                        <IconButton
+                            icon="home"
+                            onPress={() => handleHome()}
+                        >
+                        </IconButton>
                     ),
                 }}
             />
@@ -29,3 +31,4 @@ const Header = ({ title }) => {
 };
 
 export default Header;
+
