@@ -3,16 +3,30 @@ import Button from "../components/Button";
 import logo from "../../assets/pictures/logo2.png";
 import { useAuth } from "../context/auth";
 import { Stack } from 'expo-router';
+import { IconButton } from 'react-native-paper';
 
 export default function Page() {
   const { user } = useAuth();
+  const { signOut } = useAuth();
+  const logOut = () => {
+    signOut();
+};
 
 
   return (
     <ScrollView>
-      <Stack.Screen options={{
-        title: "Acceuil"
-      }} />
+      <Stack.Screen
+                options={{
+                    title: "Accueil",
+                    headerRight: () => (
+                        <IconButton
+                            icon="logout"
+                            onPress={() => logOut()}
+                        >
+                        </IconButton>
+                    ),
+                }}
+            />
       <View style={styles.container}>
         <View style={styles.main}>
           <Image source={logo} style={{ height: 200, maxWidth: "100%", resizeMode: "contain" }} />
