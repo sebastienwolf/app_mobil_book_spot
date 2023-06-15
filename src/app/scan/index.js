@@ -17,6 +17,7 @@ export default function Page() {
   const [spotCity, setSpotCity] = useState("");
   const [auteur, setAuteur] = useState("");
   const [title, setTitle] = useState("");
+  const [available_at, setAvailable_at] = useState("");
   const [notice, setNotice] = useState("1. Veuillez scanner le QR code de la boite à livre.")
 
   const handleBarCodeScanned = async ({ data }) => {
@@ -40,6 +41,7 @@ export default function Page() {
           const dataLivre = await getService(data);
           setAuteur(dataLivre.auteur);
           setTitle(dataLivre.name);
+          setAvailable_at(dataLivre.available_at)
           setNotice("Veuillez choisir si vous souhaitez déposer un livre ou l'emprunter.")
         } catch (error) {
           console.error("Le qr code du livre n'est pas valide");
@@ -51,7 +53,7 @@ export default function Page() {
 
   return (
     <ScrollView>
-      <Header title="Transaction d'un livre"/>
+      <Header title="Transaction d'un livre" />
 
       <View style={styles.container}>
         <View style={styles.main}>
@@ -80,33 +82,39 @@ export default function Page() {
           <TextPaper style={styles.textNotice} variant="bodyMedium">{notice}</TextPaper>
 
 
-          {title && auteur && idSpot ?
-            <>
+          { title && auteur && idSpot ?
+            (
               <View style={styles.groupButton}>
-                <View style={styles.buttonContainer}>
-                  <ButtonComponent
-                    route="/change/depot"
-                    title="Déposer"
-                    icon="book-plus-outline"
-                  />
-                </View>
-                <View style={styles.buttonContainer}>
-                  <ButtonComponent style={{ backgroundColor: "#B01F79" }}
-                    route="/change/remove"
-                    title="retirer"
-                    icon="book-open-page-variant"
-
-                  />
-                </View>
+                { available_at ?
+                  (
+                    <View style={styles.buttonContainer}>
+                      <ButtonComponent style={{ backgroundColor: "#B01F79" }}
+                        route="/change/remove"
+                        title="retirer"
+                        icon="book-open-page-variant"
+                      />
+                    </View>
+                  )
+                  :
+                  (
+                    <View style={styles.buttonContainer}>
+                      <ButtonComponent
+                        route="/change/depot"
+                        title="Déposer"
+                        icon="book-plus-outline"
+                      />
+                    </View>
+                  )}
               </View>
-            </> :
-            <>
+              )    
+            :
+            (
               <TouchableOpacity onPress={() => setModalVisible(true)}>
                 <ButtonPaper icon="qrcode-scan" mode="contained">
                   Lancer le scan
                 </ButtonPaper>
               </TouchableOpacity>
-            </>}
+            )}
         </View>
       </View>
       <Modal visible={modalVisible} animationType="slide">
@@ -190,6 +198,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   textNotice: {
+    textAlign:'center',
     color: "#AF361C",
   },
   groupButton: {

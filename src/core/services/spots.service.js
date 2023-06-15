@@ -1,6 +1,6 @@
 import { Request } from '../request/Request';
 
-export const getQRCode = () => {
+export const getSpot = () => {
     
     let path = { url: "/api/spot/", method: "GET" }
 

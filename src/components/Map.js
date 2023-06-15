@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import { StyleSheet, View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import * as Location from 'expo-location';
-import { getQRCode } from '../core/services/spots.service';
+import { getSpot } from '../core/services/spots.service';
 import { useRouter } from "expo-router";
 
 export default function Map() {
@@ -30,7 +30,7 @@ export default function Map() {
     const createMarkers = async () => {
       try {
         setIsLoading(true);
-        const data = await getQRCode();
+        const data = await getSpot();
         const newMarkers = data.map((item) => ({
           id: item.id,
           latitude: item.latitude,

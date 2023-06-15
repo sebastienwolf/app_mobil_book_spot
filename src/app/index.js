@@ -10,23 +10,22 @@ export default function Page() {
   const { signOut } = useAuth();
   const logOut = () => {
     signOut();
-};
-
+  };
 
   return (
     <ScrollView>
       <Stack.Screen
-                options={{
-                    title: "Accueil",
-                    headerRight: () => (
-                        <IconButton
-                            icon="logout"
-                            onPress={() => logOut()}
-                        >
-                        </IconButton>
-                    ),
-                }}
-            />
+        options={{
+          title: "Accueil",
+          headerRight: () => (
+            <IconButton
+              icon="logout"
+              onPress={() => logOut()}
+            >
+            </IconButton>
+          ),
+        }}
+      />
       <View style={styles.container}>
         <View style={styles.main}>
           <Image source={logo} style={{ height: 200, maxWidth: "100%", resizeMode: "contain" }} />
@@ -51,7 +50,7 @@ export default function Page() {
           />
           <Button
             route="/scan"
-            title="Scanner votre carte"
+            title="Partager ou déposer"
             icon="qrcode-scan"
           />
         </View>
