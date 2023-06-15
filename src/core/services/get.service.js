@@ -1,7 +1,6 @@
 import { Request } from '../request/Request';
 
 export const getService = (data) => {
-    console.log('service = ',data)
     
     let path = { url: data, method: "GET" }
     

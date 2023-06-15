@@ -50,7 +50,6 @@ export default function Map() {
   }, []);
 
   const handleMarkerPress = (id) => {
-    console.log("route spot", "/spot/" + id);
     router.push("/spot/" + id);
   };
 

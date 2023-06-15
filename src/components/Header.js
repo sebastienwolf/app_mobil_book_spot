@@ -8,7 +8,6 @@ const Header = ({ title }) => {
     const router = useRouter();
 
     const handleHome = () => {
-        console.log("route home", "/");
         router.push("/");
     };
 

@@ -36,7 +36,6 @@ export function Provider(props) {
   useProtectedRoute(user);
 
   const signIn = (dataUser) => {
-    console.log(dataUser)
     setAuth( dataUser );
   };
 
